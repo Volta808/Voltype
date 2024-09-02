@@ -18,6 +18,7 @@ const paragraphs = [
 ];
 
 
+
 const textElement = document.getElementById("text-to-type");
 const userInput = document.getElementById("user-input");
 const timerElement = document.getElementById("timer");
@@ -29,12 +30,10 @@ let timer;
 let timeElapsed = 0;
 let isTimerRunning = false;
 
-
 function selectRandomParagraph() {
     const randomIndex = Math.floor(Math.random() * paragraphs.length);
     return paragraphs[randomIndex];
 }
-
 
 function initializeGame() {
     selectedParagraph = selectRandomParagraph();
@@ -71,7 +70,7 @@ userInput.addEventListener("input", () => {
 
     if (typedText === selectedParagraph) {
         stopTimer();
-        const wordCount = selectedParagraph.split(' ').length;
+        const wordCount = typedText.split(/\s+/).filter(Boolean).length;
         const wordsPerMinute = ((wordCount / timeElapsed) * 60).toFixed(2);
         resultElement.innerHTML = `Bravo ! Vous avez terminé en ${timeElapsed.toFixed(2)} secondes.<br>Vitesse: ${wordsPerMinute} mots/minute.`;
         userInput.disabled = true;
@@ -80,24 +79,25 @@ userInput.addEventListener("input", () => {
     adjustTextareaHeight(); 
 });
 
-const MAX_TIME = 30; 
+const MAX_TIME = 30;
 
 function startTimer() {
     timer = setInterval(() => {
         timeElapsed += 0.1;
         timerElement.innerText = `Temps: ${timeElapsed.toFixed(2)}s`;
 
-        
         if (timeElapsed >= MAX_TIME) {
             stopTimer();
-            const wordCount = selectedParagraph.split(' ').length;
-            const wordsPerMinute = ((wordCount / MAX_TIME) * 60).toFixed(2);
+            const wordCount = userInput.value.split(/\s+/).filter(Boolean).length;
+            let wordsPerMinute = ((wordCount / MAX_TIME) * 60).toFixed(2);
+            if(!selectedParagraph.includes(userInput.value)){
+                wordsPerMinute = 0;
+            }
             resultElement.innerHTML = `Temps écoulé : 30 secondes.<br>Vitesse: ${wordsPerMinute} mots/minute.`;
             userInput.disabled = true;
         }
     }, 100);
 }
-
 
 function stopTimer() {
     clearInterval(timer);
