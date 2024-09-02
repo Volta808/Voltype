@@ -1,15 +1,16 @@
 const paragraphs = [
-    "Les éléphants sont les plus grands animaux terrestres et possèdent des trompes très flexibles utilisées pour saisir des objets, boire de l'eau et se rafraîchir.",
-    "Les dauphins sont connus pour leur intelligence et leurs compétences sociales. Ils vivent souvent en groupes appelés pods.",
-    "Les tigres sont les plus grands des félins, avec des rayures uniques sur leur pelage qui les aident à se camoufler dans la jungle.",
-    "Les manchots vivent principalement dans l'hémisphère sud et sont connus pour leur démarche maladroite sur la terre mais sont d'excellents nageurs.",
-    "Les koalas sont des marsupiaux d'Australie qui dorment environ 18 heures par jour et se nourrissent principalement de feuilles d'eucalyptus.",
-    "Les aigles ont une vision exceptionnelle, leur permettant de repérer des proies à plusieurs kilomètres de distance.",
-    "Les paresseux passent la plupart de leur vie suspendus aux branches des arbres et se déplacent très lentement pour économiser de l'énergie.",
-    "Les pandas géants se nourrissent presque exclusivement de bambou et passent jusqu'à 14 heures par jour à le mâcher.",
-    "Les pieuvres sont des créatures très intelligentes avec des capacités étonnantes, comme l'utilisation d'outils et le camouflage.",
-    "Les girafes ont le cou le plus long de tous les animaux terrestres, ce qui leur permet d'atteindre les feuilles des arbres les plus hauts."
+    "Les éléphants sont les plus grands animaux terrestres, pesant jusqu'à 6 tonnes. Ils possèdent des trompes extrêmement flexibles qui leur permettent de saisir des objets, boire de l'eau et se rafraîchir en utilisant des jets d'eau. Ils ont également de grandes oreilles qui les aident à réguler leur température corporelle.",
+    "Les dauphins, réputés pour leur intelligence et leurs compétences sociales, vivent en groupes appelés pods. Ces animaux marins utilisent des vocalisations sophistiquées pour communiquer entre eux. Ils jouent également un rôle crucial dans l'écosystème marin, aidant à maintenir l'équilibre des populations de poissons et autres espèces maritimes.",
+    "Les tigres sont les plus grands des félins et sont facilement reconnaissables grâce à leurs rayures uniques. Ces marques leur permettent de se camoufler dans la jungle dense, ce qui les aide à chasser. Ils sont des prédateurs solitaires, chassant principalement la nuit pour capturer leur proie.",
+    "Les manchots vivent principalement dans l'hémisphère sud, notamment en Antarctique. Leur démarche maladroite sur la terre ferme contraste avec leur incroyable agilité dans l'eau. Ces oiseaux sont d'excellents nageurs, utilisant leurs ailes comme des nageoires pour se déplacer rapidement et efficacement sous l'eau.",
+    "Les koalas, marsupiaux emblématiques d'Australie, passent environ 18 heures par jour à dormir. Leur régime alimentaire se compose principalement de feuilles d'eucalyptus, qu'ils mangent lentement pour en extraire les nutriments. Ils passent également beaucoup de temps dans les arbres, où ils se sentent en sécurité.",
+    "Les aigles, avec leur vision exceptionnelle, peuvent repérer des proies à plusieurs kilomètres de distance. Leur acuité visuelle est jusqu'à huit fois supérieure à celle des humains. Ces rapaces sont des chasseurs habiles, utilisant leur vue perçante pour localiser les animaux sur lesquels ils se nourrissent.",
+    "Les paresseux passent la plupart de leur vie suspendus aux branches des arbres dans les forêts tropicales. Ils se déplacent très lentement, ce qui leur permet d'économiser de l'énergie. Leur métabolisme est très bas, et ils ne descendent des arbres qu'une fois par semaine pour se nourrir et se soulager.",
+    "Les pandas géants se nourrissent presque exclusivement de bambou, qu'ils mâchent pendant jusqu'à 14 heures par jour. Ce régime alimentaire leur fournit les nutriments nécessaires, mais ils doivent consommer de grandes quantités pour répondre à leurs besoins énergétiques. Leur habitat est principalement constitué de forêts de bambou.",
+    "Les pieuvres sont des créatures marines dotées de capacités étonnantes, telles que l'utilisation d'outils et le camouflage. Elles peuvent changer la couleur et la texture de leur peau pour se fondre dans leur environnement. Leur intelligence remarquable les aide à résoudre des problèmes complexes et à échapper aux prédateurs.",
+    "Les girafes, avec le cou le plus long de tous les animaux terrestres, peuvent atteindre les feuilles des arbres les plus élevés. Leur cou est soutenu par un cœur puissant qui pompe le sang jusqu'à leur tête. Elles utilisent également leur langue longue et préhensile pour saisir les feuilles et les branches."
 ];
+
 
 const textElement = document.getElementById("text-to-type");
 const userInput = document.getElementById("user-input");
@@ -73,12 +74,24 @@ userInput.addEventListener("input", () => {
     adjustTextareaHeight(); 
 });
 
+const MAX_TIME = 30; 
+
 function startTimer() {
     timer = setInterval(() => {
         timeElapsed += 0.1;
         timerElement.innerText = `Temps: ${timeElapsed.toFixed(2)}s`;
+
+        
+        if (timeElapsed >= MAX_TIME) {
+            stopTimer();
+            const wordCount = selectedParagraph.split(' ').length;
+            const wordsPerMinute = ((wordCount / MAX_TIME) * 60).toFixed(2);
+            resultElement.innerHTML = `Temps écoulé : 30 secondes.<br>Vitesse: ${wordsPerMinute} mots/minute.`;
+            userInput.disabled = true;
+        }
     }, 100);
 }
+
 
 function stopTimer() {
     clearInterval(timer);
