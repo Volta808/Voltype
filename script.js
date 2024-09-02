@@ -90,10 +90,11 @@ function startTimer() {
             stopTimer();
             const wordCount = userInput.value.split(/\s+/).filter(Boolean).length;
             let wordsPerMinute = ((wordCount / MAX_TIME) * 60).toFixed(2);
-            if(!selectedParagraph.includes(userInput.value)){
-                wordsPerMinute = 0;
-            }
-            resultElement.innerHTML = `Temps écoulé : 30 secondes.<br>Vitesse: ${wordsPerMinute} mots/minute.`;
+            const elementsIncorrect = document.querySelectorAll('.incorrect');
+            const badCharacter = elementsIncorrect.length;
+            let accuracy = 100 - (badCharacter * 100 / userInput.value.length);
+            accuracy = Math.floor(accuracy);
+            resultElement.innerHTML = `Temps écoulé : 30 secondes.<br>Vitesse: ${wordsPerMinute} mots/minute avec ${accuracy}% de précision`;
             userInput.disabled = true;
         }
     }, 100);
